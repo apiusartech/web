@@ -1595,10 +1595,12 @@
     <label>Tell Us About Your Business</label>
     <textarea name="message" class="form-control" placeholder="Describe your business..."></textarea>
   </div>
-  <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">
-    🚀 Send Message & Get Free Consultation
-  </button>
+  <button type="submit" id="submitButton">🚀 Send Message & Get Free Consultation</button>
 </form>
+        <div id="thankYouMessage" style="display:none; text-align:center; padding: 20px;">
+  <h3>Thank You!</h3>
+  <p>Your message has been received. We will be in touch within 24 hours.</p>
+</div>
       </div>
     </div>
   </div>
@@ -1776,8 +1778,34 @@
       if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
     });
   });
+
+  // Thank You Message
+  const form = document.getElementById('contactForm');
+  const message = document.getElementById('thankYouMessage');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevents the page from refreshing
+    
+    // Change button text to show progress
+    document.getElementById('submitButton').innerText = "Sending...";
+
+    const formData = new FormData(form);
+    
+    fetch('YOUR_WEB_APP_URL', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      form.style.display = 'none'; // Hide the form
+      message.style.display = 'block'; // Show the thank you message
+    })
+    .catch(error => {
+      alert("Oops! Something went wrong. Please try again.");
+    });
+  });
 </script>
 </body>
 
 </html>
+
 
