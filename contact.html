@@ -1559,7 +1559,7 @@
       <div class="contact-form-box fade-in d2">
         <h3>Send Us a Message</h3>
         <p>Our team will respond within 24 hours — usually much faster!</p>
-        <form id="contactForm" action="https://script.google.com/macros/s/AKfycbxnw6SAMvqNrC6PTVfYJbqOlvXBvy8NfwZTG72WN5CoUuOaXDtIVmD-eNeFPLuzCr0L/exec" method="POST">
+        <form id="contactForm" action="https://script.google.com/macros/s/AKfycbxt1NMNicphsXpj-XuBw1TZB50gRIprneswzD5hK3TfbvydeKSuHAmdzCuKHiEJl_Wb/exec" method="POST">
   <div class="form-row">
     <div class="form-group">
       <label>First Name</label>
@@ -1599,11 +1599,14 @@
   <label>Do not fill this out if you are human:</label>
   <input type="text" name="honeypot">
 </div>
-  <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">
-            🚀 Send Message & Get Free Consultation
-          </button>
-          <p style="font-size:11px;color:var(--gray-400);text-align:center;margin-top:12px;">We respect your privacy. No spam, ever.</p>
+  <button type="submit" id="submitButton" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">
+    🚀 Send Message & Get Free Consultation
+  </button>
 </form>
+        <div id="thankYouMessage" style="display:none; text-align:center; padding: 20px;">
+  <h3>Thank You!</h3>
+  <p>Your message has been received. We will be in touch within 24 hours.</p>
+</div>
       </div>
     </div>
   </div>
@@ -1783,33 +1786,45 @@
   });
 
   // // Thank You Message
-  // const form = document.getElementById('contactForm');
-  // const message = document.getElementById('thankYouMessage');
+  const form = document.getElementById('contactForm');
+  const message = document.getElementById('thankYouMessage');
 
-  // form.addEventListener('submit', function(e) {
-  //   e.preventDefault(); // Prevents the page from refreshing
-    
-  //   // Change button text to show progress
-  //   document.getElementById('submitButton').innerText = "Sending...";
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevents page reload
 
-  //   const formData = new FormData(form);
+    const btn = document.getElementById('submitButton');
+    btn.innerText = "Sending...";
+    btn.disabled = true; // Prevents double submission
+
+    const formData = new FormData(form);
     
-  //   fetch('YOUR_WEB_APP_URL', {
-  //     method: 'POST',
-  //     body: formData
-  //   })
-  //   .then(response => {
-  //     form.style.display = 'none'; // Hide the form
-  //     message.style.display = 'block'; // Show the thank you message
-  //   })
-  //   .catch(error => {
-  //     alert("Oops! Something went wrong. Please try again.");
-  //   });
-  // });
+    // REPLACE WITH YOUR ACTUAL WEB APP URL
+    fetch('YOUR_WEB_APP_URL_HERE', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data.result === "success") {
+        form.style.display = 'none'; // Hides the form
+        message.style.display = 'block'; // Shows the Thank You message
+      } else {
+        alert("Something went wrong, please try again.");
+        btn.innerText = "🚀 Send Message & Get Free Consultation";
+        btn.disabled = false;
+      }
+    })
+    .catch(error => {
+      alert("Error: " + error);
+      btn.innerText = "🚀 Send Message & Get Free Consultation";
+      btn.disabled = false;
+    });
+  });
 </script>
 </body>
 
 </html>
+
 
 
 
