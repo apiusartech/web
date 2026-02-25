@@ -241,7 +241,7 @@
     .hero {
       background: var(--blue-900);
       min-height: 100vh; display: flex; align-items: center;
-      padding-top: 90px; position: relative; overflow: hidden;
+      padding-top: 0px; position: relative; overflow: hidden;
     }
     .hero-bg-pattern {
       position: absolute; inset: 0; pointer-events: none;
@@ -765,7 +765,10 @@
     /* RESPONSIVE */
     @media (max-width: 1024px) {
       .hero-inner { grid-template-columns: 1fr; gap: 48px; }
-      .hero-right { display: none; }
+      .hero-right { display: block; margin: 0 auto; max-width: 520px; width: 100%; }
+      .hero-photo-wrap img { height: 380px; }
+      .hero-photo-badge { left: 0; bottom: 16px; }
+      .hero-photo-badge2 { right: 0; top: 16px; }
       .about-grid, .training-header-grid, .faq-layout, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
       .services-grid { grid-template-columns: 1fr 1fr; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -788,6 +791,12 @@
       .contact-form-box { padding: 24px; }
       .form-row { grid-template-columns: 1fr; }
       .float-btns { bottom: 18px; right: 18px; }
+      .hero-right { max-width: 100%; }
+      .hero-photo-wrap img { height: 280px; }
+      .hero-photo-badge { left: 0; bottom: 12px; padding: 12px 14px; min-width: 130px; }
+      .badge-num { font-size: 22px; }
+      .hero-photo-badge2 { right: 0; top: 12px; padding: 10px 14px; }
+      .badge2-val { font-size: 18px; }
     }
   </style>
 </head>
@@ -835,6 +844,29 @@
   </div>
 </div>
 
+<!-- MARQUEE -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="marquee-dot"></span> Digital Marketing</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> SEO Services</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Web Development</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Google Business Profile</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Graphic Design</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Tech Training</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Local SEO Nigeria</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> E-Commerce Solutions</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Social Media Management</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Digital Marketing</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> SEO Services</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Web Development</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Google Business Profile</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Graphic Design</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Tech Training</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Local SEO Nigeria</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> E-Commerce Solutions</div>
+  </div>
+</div>
+
 <!-- ===================== HERO ===================== -->
 <section id="home" class="hero">
   <div class="hero-bg-pattern"></div>
@@ -873,7 +905,7 @@
       </div>
       <div class="hero-right">
         <div class="hero-photo-wrap">
-          <img src="assets\img\apiusartech-flyer-v2.png" alt="Picture of the CEO of Apiusartech, Best SEO/Digital marketing Company in Akure and Whole of Nigeria">
+          <img src="assets/img/apiusartech-flyer-v2.png" alt="Picture of the CEO of Apiusartech, Best SEO/Digital marketing Company in Akure and Whole of Nigeria">
         </div>
         <div class="hero-photo-badge">
           <div class="badge-num">200+</div>
