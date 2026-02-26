@@ -1559,7 +1559,7 @@
       <div class="contact-form-box fade-in d2">
         <h3>Send Us a Message</h3>
         <p>Our team will respond within 24 hours — usually much faster!</p>
-        <form id="contactForm" action="https://script.google.com/macros/s/AKfycbxt1NMNicphsXpj-XuBw1TZB50gRIprneswzD5hK3TfbvydeKSuHAmdzCuKHiEJl_Wb/exec" method="POST">
+        <form id="contactForm">
   <div class="form-row">
     <div class="form-group">
       <label>First Name</label>
@@ -1763,19 +1763,50 @@
     });
   });
 
-  // CONTACT FORM
-  document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const btn = this.querySelector('button[type=submit]');
-    btn.textContent = '✅ Sent! We will contact you within 24 hours.';
-    btn.style.background = '#059669';
+  // CONTACT FORM & GOOGLE SHEETS INTEGRATION
+  const contactForm = document.getElementById('contactForm');
+  const thankYouMessage = document.getElementById('thankYouMessage');
+
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault(); // Stops the redirect/refresh
+
+    const btn = this.querySelector('button[type="submit"]');
+    const originalText = '🚀 Send Message & Get Free Consultation';
+    
+    // 1. Honeypot Spam Check
+    const formData = new FormData(this);
+    if (formData.get('honeypot')) {
+      console.log("Spam detected.");
+      return; 
+    }
+
+    // 2. Visual feedback
+    btn.innerText = "Sending...";
     btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = '🚀 Send Message & Get Free Consultation';
-      btn.style.background = '';
+
+    // 3. Send data to Google Apps Script
+    fetch('https://script.google.com/macros/s/AKfycbxt1NMNicphsXpj-XuBw1TZB50gRIprneswzD5hK3TfbvydeKSuHAmdzCuKHiEJl_Wb/exec', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json()) //
+    .then(data => {
+      if(data.result === "success") {
+        // 4. Success: Hide form, show Thank You message
+        contactForm.style.display = 'none'; 
+        if(thankYouMessage) thankYouMessage.style.display = 'block';
+        
+        // Optional: Reload page after 5 seconds to reset everything
+        setTimeout(() => { location.reload(); }, 5000);
+      } else {
+        throw new Error("Script error");
+      }
+    })
+    .catch(error => {
+      alert("Oops! Something went wrong. Please try again.");
+      btn.innerText = originalText;
       btn.disabled = false;
-      this.reset();
-    }, 5000);
+    });
   });
 
   // SMOOTH SCROLL
@@ -1785,46 +1816,11 @@
       if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
     });
   });
-
-  // // Thank You Message
-  const form = document.getElementById('contactForm');
-  const message = document.getElementById('thankYouMessage');
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevents page reload
-
-    const btn = document.getElementById('submitButton');
-    btn.innerText = "Sending...";
-    btn.disabled = true; // Prevents double submission
-
-    const formData = new FormData(form);
-    
-    // REPLACE WITH YOUR ACTUAL WEB APP URL
-    fetch('YOUR_WEB_APP_URL_HERE', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      if(data.result === "success") {
-        form.style.display = 'none'; // Hides the form
-        message.style.display = 'block'; // Shows the Thank You message
-      } else {
-        alert("Something went wrong, please try again.");
-        btn.innerText = "🚀 Send Message & Get Free Consultation";
-        btn.disabled = false;
-      }
-    })
-    .catch(error => {
-      alert("Error: " + error);
-      btn.innerText = "🚀 Send Message & Get Free Consultation";
-      btn.disabled = false;
-    });
-  });
 </script>
 </body>
 
 </html>
+
 
 
 
