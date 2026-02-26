@@ -1559,7 +1559,7 @@
       <div class="contact-form-box fade-in d2">
         <h3>Send Us a Message</h3>
         <p>Our team will respond within 24 hours — usually much faster!</p>
-        <form id="contactForm" action="https://script.google.com/macros/s/AKfycbzx45-XPzN3VVACsRFXS5YEikawgek_gGQ83RMvD0Q7sDQj2LL8GDkYBDiMs_TzlZdn/exec" method="POST">
+        <form id="contactForm">
   <div class="form-row">
     <div class="form-group">
       <label>First Name</label>
@@ -1788,7 +1788,7 @@ contactForm.addEventListener('submit', function(e) {
   const urlEncoded = new URLSearchParams(formData).toString();
 
   // 4. Send to Google Apps Script with no-cors
-  fetch('https://script.google.com/macros/s/AKfycbzx45-XPzN3VVACsRFXS5YEikawgek_gGQ83RMvD0Q7sDQj2LL8GDkYBDiMs_TzlZdn/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyNqqQDrdjPqC3smJSYScWS8aFGKXXZvJU_0a3dAQQqn7-F1PkXqkssJgG1jxi-LCYl/exec', {
     method: 'POST',
     mode: 'no-cors',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -1818,6 +1818,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 </body>
 
 </html>
+
 
 
 
