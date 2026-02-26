@@ -1764,7 +1764,7 @@
   });
 
   // CONTACT FORM & GOOGLE SHEETS INTEGRATION
-  const contactForm = document.getElementById('contactForm');
+ const contactForm = document.getElementById('contactForm');
 const thankYouMessage = document.getElementById('thankYouMessage');
 
 contactForm.addEventListener('submit', function(e) {
@@ -1783,16 +1783,15 @@ contactForm.addEventListener('submit', function(e) {
   btn.innerText = "Sending...";
   btn.disabled = true;
 
-  // 3. Collect form data as a plain JSON object
+  // 3. Collect form data as URL-encoded string
   const formData = new FormData(this);
-  const data = {};
-  formData.forEach((value, key) => { data[key] = value; });
+  const urlEncoded = new URLSearchParams(formData).toString();
 
-  // 4. Send as JSON to Google Apps Script
+  // 4. Send to Google Apps Script
   fetch('https://script.google.com/macros/s/AKfycbzx45-XPzN3VVACsRFXS5YEikawgek_gGQ83RMvD0Q7sDQj2LL8GDkYBDiMs_TzlZdn/exec', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: urlEncoded
   })
   .then(response => response.json())
   .then(result => {
@@ -1822,6 +1821,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 </body>
 
 </html>
+
 
 
 
