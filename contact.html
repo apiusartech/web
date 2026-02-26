@@ -1559,7 +1559,7 @@
       <div class="contact-form-box fade-in d2">
         <h3>Send Us a Message</h3>
         <p>Our team will respond within 24 hours — usually much faster!</p>
-        <form id="contactForm" action="https://script.google.com/macros/s/AKfycbxt1NMNicphsXpj-XuBw1TZB50gRIprneswzD5hK3TfbvydeKSuHAmdzCuKHiEJl_Wb/exec" method="POST">
+        <form id="contactForm">
   <div class="form-row">
     <div class="form-group">
       <label>First Name</label>
@@ -1588,7 +1588,7 @@
       <option value="Google Business Profile Optimization">Google Business Profile Optimization</option>
       <option value="Graphic Design">Graphic Design</option>
       <option value="Tech Training">Tech Training</option>
-      <option value="Full Digital Pckage">Full Digital Package</option>
+      <option value="Full Digital Package">Full Digital Package</option>
       </select>
   </div>
   <div class="form-group">
@@ -1765,61 +1765,64 @@
 
   // CONTACT FORM & GOOGLE SHEETS INTEGRATION
   const contactForm = document.getElementById('contactForm');
-  const thankYouMessage = document.getElementById('thankYouMessage');
+const thankYouMessage = document.getElementById('thankYouMessage');
 
-  contactForm.addEventListener('submit', function(e) {
-    e.preventDefault(); // Stops the redirect/refresh
+contactForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  const originalText = '🚀 Send Message & Get Free Consultation';
 
-    const btn = this.querySelector('button[type="submit"]');
-    const originalText = '🚀 Send Message & Get Free Consultation';
-    
-    // 1. Honeypot Spam Check
-    const formData = new FormData(this);
-    if (formData.get('honeypot')) {
-      console.log("Spam detected.");
-      return; 
+  // 1. Honeypot Spam Check
+  const honeypot = this.querySelector('input[name="honeypot"]').value;
+  if (honeypot) {
+    console.log("Spam detected.");
+    return;
+  }
+
+  // 2. Visual feedback
+  btn.innerText = "Sending...";
+  btn.disabled = true;
+
+  // 3. Collect form data as a plain JSON object
+  const formData = new FormData(this);
+  const data = {};
+  formData.forEach((value, key) => { data[key] = value; });
+
+  // 4. Send as JSON to Google Apps Script
+  fetch('https://script.google.com/macros/s/AKfycbzx45-XPzN3VVACsRFXS5YEikawgek_gGQ83RMvD0Q7sDQj2LL8GDkYBDiMs_TzlZdn/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(result => {
+    if (result.result === "success") {
+      contactForm.style.display = 'none';
+      if (thankYouMessage) thankYouMessage.style.display = 'block';
+      setTimeout(() => { location.reload(); }, 5000);
+    } else {
+      throw new Error("Script error");
     }
-
-    // 2. Visual feedback
-    btn.innerText = "Sending...";
-    btn.disabled = true;
-
-    // 3. Send data to Google Apps Script
-    fetch('https://script.google.com/macros/s/AKfycbxt1NMNicphsXpj-XuBw1TZB50gRIprneswzD5hK3TfbvydeKSuHAmdzCuKHiEJl_Wb/exec', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json()) //
-    .then(data => {
-      if(data.result === "success") {
-        // 4. Success: Hide form, show Thank You message
-        contactForm.style.display = 'none'; 
-        if(thankYouMessage) thankYouMessage.style.display = 'block';
-        
-        // Optional: Reload page after 5 seconds to reset everything
-        setTimeout(() => { location.reload(); }, 5000);
-      } else {
-        throw new Error("Script error");
-      }
-    })
-    .catch(error => {
-      alert("Oops! Something went wrong. Please try again.");
-      btn.innerText = originalText;
-      btn.disabled = false;
-    });
+  })
+  .catch(error => {
+    alert("Oops! Something went wrong. Please try again.");
+    btn.innerText = originalText;
+    btn.disabled = false;
   });
+});
 
-  // SMOOTH SCROLL
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', function(e) {
-      const t = document.querySelector(this.getAttribute('href'));
-      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
-    });
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const t = document.querySelector(this.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
   });
+});
 </script>
 </body>
 
 </html>
+
 
 
 
