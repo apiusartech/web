@@ -1866,7 +1866,8 @@
 
     try {
       await addDoc(collection(db, "contacts"), {
-        name: form.name.value.trim(),
+        firstName: form.firstName.value.trim(), 
+        lastName: form.lastName.value.trim(),
         email: form.email.value.trim(),
         phone: form.phone?.value.trim() || "",
         service: form.service?.value || "",
@@ -1896,6 +1897,7 @@
 </body>
 
 </html>
+
 
 
 
