@@ -1833,70 +1833,10 @@
     });
   });
 </script>
-  
-  <!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBER50u4uK41Nv8xHMQL8mPJr-KKSPNOtE",
-    authDomain: "apiusartech-contact.firebaseapp.com",
-    projectId: "apiusartech-contact",
-    storageBucket: "apiusartech-contact.firebasestorage.app",
-    messagingSenderId: "449440374461",
-    appId: "1:449440374461:web:a6685b00165336c02d21d4"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const form = document.getElementById("contactForm");
-
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    // Honeypot check
-    const honeypot = document.getElementById("website");
-    if (honeypot && honeypot.value !== "") return;
-
-    const submitBtn = form.querySelector("button[type='submit']");
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Sending...";
-
-    try {
-      await addDoc(collection(db, "contacts"), {
-        firstName: form.firstName.value.trim(), 
-        lastName: form.lastName.value.trim(),
-        email: form.email.value.trim(),
-        phone: form.phone?.value.trim() || "",
-        service: form.service?.value || "",
-        message: form.message.value.trim(),
-        timestamp: serverTimestamp()
-      });
-
-      // Show thank you message
-      form.innerHTML = `
-        <div style="text-align:center; padding: 40px 20px;">
-          <h3 style="color: #4CAF50;">✅ Message Sent!</h3>
-          <p>Thank you for reaching out. We'll get back to you shortly.</p>
-        </div>
-      `;
-
-      // Reload after 5 seconds
-      setTimeout(() => location.reload(), 5000);
-
-    } catch (error) {
-      console.error("Error:", error);
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Send Message";
-      alert("Something went wrong. Please try again.");
-    }
-  });
-</script>
 </body>
 
 </html>
+
 
 
 
