@@ -1604,10 +1604,10 @@
   </button>
           <p style="font-size:11px;color:var(--gray-400);text-align:center;margin-top:12px;">We respect your privacy. No spam, ever.</p>
 </form>
-        <div id="thankYouMessage" style="display:none; text-align:center; padding: 20px;">
+        <!-- <div id="thankYouMessage" style="display:none; text-align:center; padding: 20px;">
   <h3>Thank You!</h3>
   <p>Your message has been received. We will be in touch within 24 hours.</p>
-</div>
+</div> -->
       </div>
     </div>
   </div>
@@ -1788,14 +1788,13 @@ contactForm.addEventListener('submit', function(e) {
   const urlEncoded = new URLSearchParams(formData).toString();
 
   // 4. Send to Google Apps Script with no-cors
-  fetch('https://script.google.com/macros/s/AKfycbz3-jskLl01vzVuxH4nj2doiBiOesLMU3rG5bYwB_M/dev', {
+  fetch('https://script.google.com/macros/s/AKfycbyNqqQDrdjPqC3smJSYScWS8aFGKXXZvJU_0a3dAQQqn7-F1PkXqkssJgG1jxi-LCYl/exec', {
     method: 'POST',
     mode: 'no-cors',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: urlEncoded
   })
   .then(() => {
-    // Show thank you immediately since no-cors won't return a readable response
     contactForm.style.display = 'none';
     if (thankYouMessage) thankYouMessage.style.display = 'block';
     setTimeout(() => { location.reload(); }, 5000);
@@ -1818,6 +1817,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 </body>
 
 </html>
+
 
 
 
