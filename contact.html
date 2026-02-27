@@ -1559,7 +1559,7 @@
       <div class="contact-form-box fade-in d2">
         <h3>Send Us a Message</h3>
         <p>Our team will respond within 24 hours — usually much faster!</p>
-        <form id="contactForm">
+        <form id="contactForm" action="https://script.google.com/macros/s/AKfycbzHWiWBrddlr_AI-_RftMFay7UNLhkhcG_dd3aPwV4vEfP5kt28t3BxMbJhhFQkHG6p/exec" method="POST">
   <div class="form-row">
     <div class="form-group">
       <label>First Name</label>
@@ -1604,9 +1604,6 @@
   </button>
           <p style="font-size:11px;color:var(--gray-400);text-align:center;margin-top:12px;">We respect your privacy. No spam, ever.</p>
 </form>
-        <div id="thankYouMessage" style="display:none;">
-  <h3>Thank you! We'll be in touch shortly.</h3>
-</div>
       </div>
     </div>
   </div>
@@ -1764,7 +1761,6 @@
 
   // CONTACT FORM & GOOGLE SHEETS INTEGRATION
  const contactForm = document.getElementById('contactForm');
-const thankYouMessage = document.getElementById('thankYouMessage');
 
 if (contactForm) {
   contactForm.addEventListener('submit', function (e) {
@@ -1773,38 +1769,28 @@ if (contactForm) {
     const btn = this.querySelector('button[type="submit"]');
     const originalText = btn.innerText;
 
-    // 1. Honeypot check
+    // Honeypot check
     const honeypot = this.querySelector('input[name="honeypot"]');
     if (honeypot && honeypot.value) {
       console.log('Spam detected.');
       return;
     }
 
-    // 2. Visual feedback
+    // Visual feedback
     btn.innerText = 'Sending...';
     btn.disabled = true;
 
-    // 3. Collect form data
+    // Collect form data
     const formData = new FormData(this);
     const urlEncoded = new URLSearchParams(formData).toString();
 
-    // 4. Submit to Google Apps Script — no mode:'no-cors' so we can read the response
+    // Submit
     fetch('https://script.google.com/macros/s/AKfycbzHWiWBrddlr_AI-_RftMFay7UNLhkhcG_dd3aPwV4vEfP5kt28t3BxMbJhhFQkHG6p/exec', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: urlEncoded
     })
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === 'success') {
-          // Hide form, show thank you message — no page reload, no blank screen
-          contactForm.style.display = 'none';
-          if (thankYouMessage) {
-            thankYouMessage.style.display = 'block';
-          }
-        } else {
-          throw new Error('Unexpected response');
-        }
+      .then(() => {
+        window.location.href = 'https://apiusartech.github.io/web/contact.html';
       })
       .catch(() => {
         alert('Oops! Something went wrong. Please try again.');
@@ -1828,6 +1814,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 </body>
 
 </html>
+
 
 
 
