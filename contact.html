@@ -1785,12 +1785,12 @@ if (contactForm) {
     const urlEncoded = new URLSearchParams(formData).toString();
 
     // Submit
-    fetch('https://script.google.com/macros/s/AKfycbzHWiWBrddlr_AI-_RftMFay7UNLhkhcG_dd3aPwV4vEfP5kt28t3BxMbJhhFQkHG6p/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbxh11oR2L0O8zpn_lSpbg_srNoLlJFxHplgizV0AFV0JDAypD4lNfffLoppp5xSwqfB/exec', {
       method: 'POST',
       body: urlEncoded
     })
       .then(() => {
-        window.location.href = 'https://apiusartech.github.io/web/contact.html';
+        window.location.href = 'success.html';
       })
       .catch(() => {
         alert('Oops! Something went wrong. Please try again.');
@@ -1814,6 +1814,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 </body>
 
 </html>
+
 
 
 
